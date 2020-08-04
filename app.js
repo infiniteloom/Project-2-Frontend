@@ -14,7 +14,7 @@ const startCarousel = async (artworkData) =>{
     // console.log(artworkData)
     const randomDoc = [];
     // create an array of three random documents from the artwork database
-    for(let i=0; i<3; i++){
+    for(let i = 0; i < 3; i++){
         randomDoc.push(artworkData[Math.floor(Math.random()*artworkData.length)]);
     }
     console.log(randomDoc)

@@ -89,6 +89,33 @@ li{
 .error{
     border: 1px solid red;
 }
-#edit-button{
+#add-button{
     border: none;
+}
+
+
+
+.add-or-return{
+    margin-top: 100px;
+    display: flex;
+    border: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#add-more-button{
+    display: none;
+    border: none;
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+#return-button{
+    display: none;
+    border: none;
+    margin: 10px;
+    width: 250px;
+    padding: 10px;
+    text-align: center;
 }
