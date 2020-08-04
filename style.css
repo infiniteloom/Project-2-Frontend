@@ -1,0 +1,94 @@
+
+
+
+li{
+    list-style: none;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.nav-brand{
+    letter-spacing: .2em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: black;
+}
+.image-banner{
+    width: 100%;
+    background-color: grey;
+    height: 30vh;
+}
+.navbar-nav{
+    justify-content: space-around;
+    height: 20px;
+    align-items: center;
+}
+.navbar-nav li{
+    font-size: .8em;
+    letter-spacing: .05em;
+}
+.fas fa-plus{
+    font-size: .5em;
+}
+
+
+
+.views-toggle-wrapper{
+    display: block;
+    width: 100%;
+}
+.views-toggle{
+    flex-direction: row;
+    display: flex;
+    justify-content: space-around;
+    width: 100px;
+    float: right;
+    align-items: center;
+}
+.views-toggle li a{
+    color: black;
+}
+
+.carousel{
+    height: 400px;
+
+}
+.carouselImg{
+    object-fit:cover;
+    height: 400px;
+}
+
+.all-artworks {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%; 
+}
+
+.col-md-4, .col-6{
+    padding-top: 25px;
+}
+
+
+
+
+.edit-form{
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+    height: 60%;
+    margin: 0 auto;
+}
+
+
+.required{
+    float: right;
+    font-style: italic;
+    font-size: 8px;
+    
+}
+.error{
+    border: 1px solid red;
+}
+#edit-button{
+    border: none;
+}
