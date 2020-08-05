@@ -61,26 +61,79 @@ const getArtworks = async (artworkData) => {
         .attr('id', art._id)
         $allArtworks.append($imgNode);
     })
+
+    
 }
 
 // this happens on site-load.
 // make the axios call to get the data then trigger the two functions
 axios.get(`${URL}artworks`).then(response => {
-  // gets the initial data
-  startCarousel(response.data);
-  getArtworks(response.data);
+    // gets the initial data
+    startCarousel(response.data);
+    getArtworks(response.data);
+
+    // once initial data is loaded, store all images in variable $archiveItem
+    const $archiveItem = $(".archive-item");
+    // when one of the archive items is clicked, open archive item information window. 
+    $archiveItem.on('click', openArchiveItemWindow);
 })
 
 
 
+// Opens the open artwork / archive item modal window. 
+const openArchiveItemWindow = (event) => {
+    const $editArchiveItem = $('#archive-item-modal')
+    console.log($editArchiveItem)
+    // Display the archive item's information in a modal window
+    $(document).ready(function(){$editArchiveItem.modal('show')});
+    // $editArchiveItem.show();
 
-const $archiveItem = $('.archive-item')
-console.log($archiveItem)
+    console.log('archive item window open');   
 
-const openEditWindow = () => {
-    console.log('clicking archive item')
-    console.log($archiveItem._id)
+
+    // grabs the buttons for edit and delete
+    const $editArchiveItemButton = $('#edit-archive-item-button');
+    const $deleteArchiveItemButton = $('#delete-archive-item-button');
+    // on click functions for the edit and delete buttons
+    $editArchiveItemButton.on('click', openEditItemWindow);
+    $deleteArchiveItemButton.on('click', openDeletePrompt);
+
+    // const updatedArtwork = {
+    //     title: "",
+    //     artist: "",
+    //     year: "",
+    //     materials: [],
+    //     notes: "",
+    //     imageUrl: ""
+    // }
+    // const updatedArtwork = {
+    //     title: $title.val(),
+    //     artist: artistName,
+    //     year: $year.val(),
+    //     materials: $materialsMedium.val(),
+    //     notes: $notes.val(),
+    //     imageUrl: $imgUrl.val()
+    // }
+    
+    // Find artist in DB using the ID of the image clicked.
+    // const response = await fetch(`${URL}artworks/${event.target.id}`, {
+    //     method: "put",
+    //     headers: {
+    //       "Content-Type" : "application/json"   
+    //     },
+    //     body: JSON.stringify(updatedArtwork)
+    //   })
+      //update using the DOM 
+    //   $ul.empty()
+    // close the modal and return to the main gallery 
 }
 
+const openEditItemWindow = (event) =>{
+    console.log('the id of the artwork to edit is:')
+    console.log(event.target.id)
+}
 
-$archiveItem.on('click', openEditWindow)
+const openDeletePrompt = (event) =>{
+    console.log('the id of the artwork to delete is:')
+    console.log(event.target.id)
+}

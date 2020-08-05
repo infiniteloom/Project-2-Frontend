@@ -114,6 +114,9 @@ li{
     color: black;
     border: none;
 }
+#save-archive-item-button{
+    display: none;
+}
 
 /* Add more artwork or return to gallery buttons styling */
 .add-or-return{
