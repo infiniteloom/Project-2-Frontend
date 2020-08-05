@@ -90,17 +90,83 @@ const openArchiveItemWindow = async (event) => {
 
   // Find artwork in DB using the ID of the image clicked.
     const artwork = await fetch(`${URL}artworks/${event.target.id}`)
-    .then(res => res.json())
-    // console.log(artwork)
+    .then(res => res.json());
+    console.log(artwork);
 
-    const $archiveItemBody = $('#archive-item-body')
+   
 
-    let x, txt = "";
-    // loop through document's key/values and display in the modal <p> element
-    for(x in artwork){
-        txt += artwork[x]+ "";
-    };
-    $archiveItemBody.text('heyh ey')
+    const $archiveItemBody = $('#archive-item-body');
+    // let keys = Object.keys(artwork);
+    // let values = Object.values(artwork);
+    let entries = Object.entries(artwork);
+
+    // Filter out key/values that aren't relevant to the displayed text
+    // Capitalize and push to a new array
+    let displayEntries = [];
+    for(let i = 0; i < entries.length; i++){
+
+        if(entries[i][0] !== '_id' && entries[i][0] !== 'createdAt' && entries[i][0] !== 'updatedAt' && entries[i][0] !== '__v'){
+            if(entries[i][0] === 'imageUrl'){
+                entries[i][0] = "Image URL:";
+                displayEntries.push(entries[i]);
+            }else if(entries[i][0] === 'year'){
+                entries[i][0] = "Year Created:"
+                displayEntries.push(entries[i]);
+            }else if(entries[i][0] === 'artist'){
+                entries[i][0] = "Artist:"
+                entries[i][1] = entries[i][0].name
+                displayEntries.push(entries[i]);
+            }else{
+                entries[i][0] = entries[i][0].charAt(0).toUpperCase() + entries[i][0].slice(1) + ':';
+                displayEntries.push(entries[i]);
+            }
+        }
+    }
+    // console.log(displayEntries);
+
+
+    // Create a table to display all of the artwork information 
+    let $table = $('<table>').addClass('info-table');
+    let $tHead = $('<thead>').addClass('table-header');
+    let $tBody = $('<tbody>').addClass('table-body')
+
+    for(let i=0; i< displayEntries.length; i++){
+        let $row = $('<tr>')
+        $header = $('<td>').text(displayEntries[i][0]).addClass('artwork-table-header').css('font-weight', 'bold');
+        $info = $('<td>').text(displayEntries[i][1]).addClass('artwork-table-info');
+        $tBody.append($row).append($header).append($info)
+
+        if(displayEntries[i][0] === 'Image URL:'){
+            let $image = $('<img>').attr('src', `${displayEntries[i][1]}`)
+            $tHead.append($image)
+           
+        }
+    }
+    $table.append($tHead)
+    $table.append($tBody);
+    $archiveItemBody.append($table)
+
+    //filter out the unnessary property names for the user side.
+    // let disKeys = [];
+    // for(let i = 0; i < keys.length; i++){    
+    //     if(keys[i] !== 'createdAt' && keys[i] !== 'updatedAt' && keys[i] !== '__v' && keys[i] !== '_id'){
+    //         if(keys[i] === 'imageUrl'){
+    //             keys[i] = 'Image Url';
+    //             disKeys.push(keys[i]);
+    //         }else if(keys[i] === 'year'){
+    //             keys[i]= 'Year Created';
+    //             disKeys.push(keys[i]);
+    //         }else{
+    //             disKeys.push((keys[i].charAt(0).toUpperCase()) + keys[i].slice(1));
+    //         };
+    //     };
+    // };
+    // for(let i=0; i<disKeys.length; i++){
+    //     $header = $('<p>').text(disKeys[i]).addClass('artwork-info-header').css('font-weight', 'bold');
+    //     $archiveItemBody.append($header);
+    // }
+
+
 
     // grabs the buttons for edit and delete
     const $editArchiveItemButton = $('#edit-archive-item-button');

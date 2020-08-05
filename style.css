@@ -143,3 +143,13 @@ li{
     padding: 10px;
     text-align: center;
 }
+
+.info-table{
+    position: relative;
+    width: 100%;
+    
+}
+
+.table-header{
+    overflow: hidden;
+}
