@@ -92,13 +92,15 @@ const checkArtist = async (artistName)=>{
         // if theArtist array is empty, artist does not exist
         else if(theArtist.length === 0){
             console.log('this artist does not exist')
+
             // show modal prompt to ask if the user would like to add the artist to the db.
             $('#modal-body-text').text(`Add ${artistName.val()} to your collection?`)
             $(document).ready(function(){$addArtistModal.modal('show')});
-        
-            // $addArtistButton.attr('id', artistName.val())
-            // console.log($addArtistButton.id)
-            $addArtistButton.on('click', addMediumForm(artistName.val()))
+            
+            // on click of artist button 
+            $addArtistButton.on('click', () =>{
+                addMediumForm(artistName.val())
+            })
         }
     })
 }
@@ -111,11 +113,12 @@ const addMediumForm = async (artistName) =>{
     // console.log(`${artistName} is the artists's name `)
 
     // show modal form to add artist's medium
+    $('#medium-modal-label').text(`What is ${artistName}'s primary medium?`)
     $(document).ready(function(){$addArtistModal.modal('hide')});
     $(document).ready(function(){$addMediumModal.modal('show')});
     // const artistNameSend = artistName
     // $addMediumButton.on('click', addArtistToDb(artistName))
-    $addMediumButton.on('click', (event) => {
+    $addMediumButton.on('click', async (event) => {
         console.log('add artist to db function')
         console.log(artistName)
         const medium = $mediumModalInput.val()
@@ -127,7 +130,7 @@ const addMediumForm = async (artistName) =>{
             medium: [medium]
         }
     
-        const response = await fetch(`${URL}artworks`, 
+        const response = await fetch(`${URL}artists`, 
             {
                 method: "POST",
                 headers: {

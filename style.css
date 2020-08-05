@@ -1,6 +1,5 @@
 
-
-
+/*  Nav Bar Styling */
 li{
     list-style: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -30,6 +29,21 @@ li{
 
 
 
+/* Carousel Styling */
+.carousel{
+    height: 400px;
+
+}
+.carouselImg{
+    object-fit:cover;
+    height: 400px;
+}
+
+
+
+
+
+/* Views Styling */
 .views-toggle-wrapper{
     display: block;
     width: 100%;
@@ -46,29 +60,26 @@ li{
     color: black;
 }
 
-.carousel{
-    height: 400px;
 
-}
-.carouselImg{
-    object-fit:cover;
-    height: 400px;
-}
 
+
+/* Gallery Styling */
 .all-artworks {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%; 
 }
-
+.archive-item:hover{
+    filter: brightness(.8);
+}
 .col-md-4, .col-6{
     padding-top: 25px;
 }
 
 
 
-
+/* Edit Form Styling */
 .edit-form{
     padding-top: 100px;
     display: flex;
@@ -94,9 +105,17 @@ li{
 #add-button:hover{
     background-color: rgb(215, 215, 215);
 }
+.btn-primary{
+    background-color: rgb(116, 116, 116);
+    border: none;
+}
+.btn-secondary{
+    background-color: white;
+    color: black;
+    border: none;
+}
 
-
-
+/* Add more artwork or return to gallery buttons styling */
 .add-or-return{
     margin-top: 100px;
     display: flex;

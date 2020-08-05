@@ -8,6 +8,7 @@ const $carousel2 = $('#carousel2');
 const $carousel3 = $('#carousel3');
 
 
+/////////////////////////////////// CAROUSEL /////////////////////////////////////
 
 // function to populate the Bootstrap carousel with 3 randomly selected images from database:
 const startCarousel = async (artworkData) =>{
@@ -41,6 +42,9 @@ const startCarousel = async (artworkData) =>{
     })
 }
 
+
+
+//////////////////////////// DISPLAY ART IN GALLERY WITH BOOTSTRAP GRID ////////////////////////////
 // display all artworks in a Bootstrap grid 
 const getArtworks = async (artworkData) => {
     // console.log(artworkData)
@@ -54,6 +58,7 @@ const getArtworks = async (artworkData) => {
         .addClass('col-md-4')
         .addClass('col-lg-3')
         .addClass('col-xlg-2')
+        .attr('id', art._id)
         $allArtworks.append($imgNode);
     })
 }
@@ -66,3 +71,16 @@ axios.get(`${URL}artworks`).then(response => {
   getArtworks(response.data);
 })
 
+
+
+
+const $archiveItem = $('.archive-item')
+console.log($archiveItem)
+
+const openEditWindow = () => {
+    console.log('clicking archive item')
+    console.log($archiveItem._id)
+}
+
+
+$archiveItem.on('click', openEditWindow)
