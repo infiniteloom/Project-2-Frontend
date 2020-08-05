@@ -81,15 +81,26 @@ axios.get(`${URL}artworks`).then(response => {
 
 
 // Opens the open artwork / archive item modal window. 
-const openArchiveItemWindow = (event) => {
+const openArchiveItemWindow = async (event) => {
     const $editArchiveItem = $('#archive-item-modal')
-    console.log($editArchiveItem)
+    // console.log($editArchiveItem)
     // Display the archive item's information in a modal window
     $(document).ready(function(){$editArchiveItem.modal('show')});
-    // $editArchiveItem.show();
+    // console.log('archive item window open');   
 
-    console.log('archive item window open');   
+  // Find artwork in DB using the ID of the image clicked.
+    const artwork = await fetch(`${URL}artworks/${event.target.id}`)
+    .then(res => res.json())
+    // console.log(artwork)
 
+    const $archiveItemBody = $('#archive-item-body')
+
+    let x, txt = "";
+    // loop through document's key/values and display in the modal <p> element
+    for(x in artwork){
+        txt += artwork[x]+ "";
+    };
+    $archiveItemBody.text('heyh ey')
 
     // grabs the buttons for edit and delete
     const $editArchiveItemButton = $('#edit-archive-item-button');
@@ -115,14 +126,7 @@ const openArchiveItemWindow = (event) => {
     //     imageUrl: $imgUrl.val()
     // }
     
-    // Find artist in DB using the ID of the image clicked.
-    // const response = await fetch(`${URL}artworks/${event.target.id}`, {
-    //     method: "put",
-    //     headers: {
-    //       "Content-Type" : "application/json"   
-    //     },
-    //     body: JSON.stringify(updatedArtwork)
-    //   })
+  
       //update using the DOM 
     //   $ul.empty()
     // close the modal and return to the main gallery 
