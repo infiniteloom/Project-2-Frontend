@@ -8,10 +8,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
         <link rel="stylesheet" href="style.css">
-        <script
+        <!-- <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
-        crossorigin="anonymous" defer>
+        crossorigin="anonymous" defer> -->
     </script>
     <script src="edit-app.js" defer></script>
     </head>
@@ -35,14 +35,19 @@
         <div class="edit-form">
             <label for="title-input">Title of Work:  <span class="required">(required)</span></label>
             <input type="text" name=title id="title-input">
+
             <label for="artist-input">Artist Name:<span class="required">(required)</span> </label>
             <input type="text" name=artistName id="artist-input">
+
             <label for="year-input">Year Created: </label>
             <input type="text" name=year id="year-input">
+
             <label for="materials-input">Materials/Medium: </label>
             <input type="text" name=materials id="materials-input">
+
             <label for="notes-input">Additional Notes:</label>
             <input type="text" name=notes id="notes-input">
+
             <label for="url-input">Image URL: <span class="required">(required)</span></label>
             <input type="text" name=imageURL id="url-input">
             <br>            
@@ -53,6 +58,52 @@
             <button id="return-button">Return to Archive Vista View</button>
         </div>
 
+
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+            Launch demo modal
+          </button> -->
+                <!-- Add Artist Modal -->
+                <div class="modal fade" id="add-artist-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Artist does not exist in your archives.</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <p id="modal-body-text"></p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" id="add-artist-button">Add Artist to Archive</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                   <!-- Add Medium Modal -->
+                <div class="modal fade" id="add-medium-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Adding artist to archive.</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <label for="medium-modal-input">What is this artist's primary medium?<span class="required">(required)</span></label>
+                            <input type="text" name=medium-modal-input id="medium-modal-input" placeholder="oil paint, watercolor, fiber, collage...">
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" id="add-medium-button">Add Medium</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

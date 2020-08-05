@@ -92,6 +92,9 @@ li{
 #add-button{
     border: none;
 }
+#add-button:hover{
+    background-color: rgb(215, 215, 215);
+}
 
 
 
