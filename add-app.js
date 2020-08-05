@@ -16,13 +16,13 @@ const $imgUrl = $('#url-input');
 const $addButton = $('#add-button');
 const $returnButton = $('#return-button');
 const $addMoreButton = $('#add-more-button');
-const $modalAddArtistButton = $('#modal-add-button');
+// const $modalAddArtistButton = $('#modal-add-button');
 const $editForm = $('.edit-form');
 const $addArtistModal    = $('#add-artist-modal');
-const $addArtistButton = $('#add-artist-button')
+const $addArtistButton = $('.add-artist-button')
 const $addMediumModal = $('#add-medium-modal')
-const $mediumModalInput = $("#medium-modal-input")
-const $addMediumButton = ("#add-medium-button");
+const $mediumModalInput = $('#medium-modal-input')
+const $addMediumButton = $('#add-medium-button');
 
 
 
@@ -65,65 +65,105 @@ requiredArray.forEach((input)=>{
 
 const checkArtist = async (artistName)=>{
     // const allArtists = await fetch(`${URL}artists`).then(response => response.json())
-    
+    console.log('check artist function)')
+
     const allArtists = await fetch(`${URL}artists`)
         // return DB info as json
         .then(response => response.json())
         // 'artists' consists of all the docs in DB
+
         .then((artists) => {    
+        let artistId = "";
+
         // find the artist with the matching name and filter to the array of theArtist
         const theArtist = artists.filter((artistObj) =>{
+            // console.log(theArtist)
+            artistId = artistObj._id
             return artistObj.name.toUpperCase() === artistName.val().toUpperCase()
         })
-        // console.log(theArtist)
+        
+        // if theArtist array has a name in it/ artist exists
+        if(theArtist.length > 0){
+            // add art to db using the DB document's _id number as the artist name
+            artistName = artistId;
+            addArtToDb(artistName); 
+        }
+
         // if theArtist array is empty, artist does not exist
-        if(theArtist.length === 0){
+        else if(theArtist.length === 0){
             console.log('this artist does not exist')
             // show modal prompt to ask if the user would like to add the artist to the db.
             $('#modal-body-text').text(`Add ${artistName.val()} to your collection?`)
             $(document).ready(function(){$addArtistModal.modal('show')});
-            $addArtistButton.attr('id', artistName.val())
-            $addArtistButton.on('click', addArtist)
-            // see on-click event for addArtist()
+        
+            // $addArtistButton.attr('id', artistName.val())
+            // console.log($addArtistButton.id)
+            $addArtistButton.on('click', addMediumForm(artistName.val()))
         }
-
-        // artworks array could be empty to start 
-        artistName = artistObj._id;
-        addArtToDb(artistName); 
-        })
+    })
 }
+
 
 //////////////////////// ADD ARTIST TO DATABASE //////////////////////
 
-const addArtist = async () =>{
-    console.log('made it to the add artist popo up )')
-    console.log(event.target.id)
-    // show modal prompt for artist's medium
-    // $addArtistModal.modal('hide');
-    // $(document).ready(function(){$addMediumModal.modal('show')});
+const addMediumForm = async (artistName) =>{
+    // console.log('made it to the add medium pop up')
+    // console.log(`${artistName} is the artists's name `)
 
-    // get the value of the medium input
-    const medium = $mediumModalInput.val()
-    const artist = {
-        name: event.target.id,
-        artworks: [],
-        medium: `${medium}`
-    }
-
-    const response = await fetch(`${URL}artists`,
-        {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(artist)
+    // show modal form to add artist's medium
+    $(document).ready(function(){$addArtistModal.modal('hide')});
+    $(document).ready(function(){$addMediumModal.modal('show')});
+    // const artistNameSend = artistName
+    // $addMediumButton.on('click', addArtistToDb(artistName))
+    $addMediumButton.on('click', (event) => {
+        console.log('add artist to db function')
+        console.log(artistName)
+        const medium = $mediumModalInput.val()
+        console.log(medium)
+    
+        const newArtist = {
+            name: artistName,
+            artworks: [],
+            medium: [medium]
         }
-    ) 
-
-    return artist
+    
+        const response = await fetch(`${URL}artworks`, 
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(newArtist)
+            }
+        )
+        console.log(response)  
+    })
 }
 
 
+// const addArtistToDb = async (artistName) =>{
+//     console.log('add artist to db function')
+//     console.log(artistName)
+//     const medium = $mediumModalInput.val()
+//     console.log(medium)
+
+//     const newArtist = {
+//         name: artistName,
+//         artworks: [],
+//         medium: [medium]
+//     }
+
+//     const response = await fetch(`${URL}artworks`, 
+//         {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type" : "application/json"
+//             },
+//             body: JSON.stringify(newArtist)
+//         }
+//     )
+//     console.log(response)
+// }
 
 
 
@@ -176,41 +216,13 @@ const addArtwork = () =>{
 
         // Check that there are no duplicate artists. 
         checkArtist($artistName)
-        // if(doesArtistExist($artistName)){
-        //     addArtToDb($artistName)
-            // const newArtwork = {
-            //     title: $title.val(),
-            //     artist: $artistName.val(),
-            //     year: $year.val(),
-            //     materials: $materialsMedium.val(),
-            //     notes: $notes.val(),
-            //     imgUrl: $imgUrl.val()
-            // }
-            // const response = await fetch(  `${URL}artworks`, {
-            //     method: "post",
-            //     headers: {
-            //         "Content-Type" : "application/json"
-            //     },
-            //     body: JSON.stringify(newArtwork)
-            // })
-            // console.log(response)
-        // }else{
-        //     console.log('add artist to artist db then append id to the artwork')
-        // }
+        
     }else{
         return
     }
-    // make a post request for a new artork. 
-    // axios.post(`${URL}artworks`, {
-    //     title,
-    //     artist,
-    //     year,
-    //     materials,
-    //     notes,
-    //     imageUrl
-    // })
 }
 
 
 $addButton.on('click', addArtwork);
-$modalAddArtistButton.on('click', addArtist);
+
+// $modalAddArtistButton.on('click', addMediumForm);
