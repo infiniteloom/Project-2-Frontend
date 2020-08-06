@@ -54,40 +54,38 @@ const startCarousel = async (artworkData) =>{
 
 
 //////////////////////////// DISPLAY ART IN GALLERY WITH BOOTSTRAP GRID ////////////////////////////
-// display all artworks in a Bootstrap grid 
-const getArtworks = async (artworkData) => {
-    // console.log(artworkData)
-    $allArtworks.innerHTML="";
-    artworkData.forEach(art => {
-        if(!art.imageUrl) return;
-        const $imgNode = $('<img>')
-        .attr('src', art.imageUrl)
-        .addClass('archive-item')
-        .addClass('col-6')
-        .addClass('col-md-4')
-        .addClass('col-lg-3')
-        .addClass('col-xlg-2')
-        .attr('id', art._id)
-        $allArtworks.append($imgNode);
-    })
+// // display all artworks in a Bootstrap grid 
+// const getArtworks = async (artworkData) => {
+//     // console.log(artworkData)
+//     $allArtworks.innerHTML="";
+//     artworkData.forEach(art => {
+//         if(!art.imageUrl) return;
+//         const $imgNode = $('<img>')
+//         .attr('src', art.imageUrl)
+//         .addClass('archive-item')
+//         .addClass('col-6')
+//         .addClass('col-md-4')
+//         .addClass('col-lg-3')
+//         .addClass('col-xlg-2')
+//         .attr('id', art._id)
+//         $allArtworks.append($imgNode);
+//     })
 
     
-}
+// }
 
-// this happens on site-load.
-// make the axios call to get the data then trigger the two functions
-axios.get(`${URL}artworks`).then(response => {
-    // gets the initial data
-    startCarousel(response.data);
-    getArtworks(response.data);
+// // this happens on site-load.
+// // make the axios call to get the data then trigger the two functions
+// axios.get(`${URL}artworks`).then(response => {
+//     // gets the initial data
+//     startCarousel(response.data);
+//     getArtworks(response.data);
 
-    // once initial data is loaded, store all images in variable $archiveItem
-    const $archiveItem = $(".archive-item");
-    // when one of the archive items is clicked, open archive item information window. 
-    $archiveItem.on('click', openArchiveItemWindow);
-})
-
-
+//     // once initial data is loaded, store all images in variable $archiveItem
+//     const $archiveItem = $(".archive-item");
+//     // when one of the archive items is clicked, open archive item information window. 
+//     $archiveItem.on('click', openArchiveItemWindow);
+// })
 
 
 
@@ -332,43 +330,31 @@ const $editArchiveItemButton = $('.edit-archive-item-button');
 const $deleteArchiveItemButton = $('#delete-archive-item-button');
 
 
+const getArtworks = async () => {
+    
+    // display all artworks in a Bootstrap grid 
+    axios.get(`${URL}artworks`).then(response => {
+        // console.log(response.data)
+        $allArtworks.innerHTML="";
+        startCarousel(response.data)
+        response.data.forEach(art => {
+            if(!art.imageUrl) return;
+            const $imgNode = $('<img>')
+            .attr('src', art.imageUrl)
+            .addClass('archive-item')
+            .addClass('col-6')
+            .addClass('col-md-4')
+            .addClass('col-lg-3')
+            .addClass('col-xlg-2')
+            .attr('id', art._id)
+            $allArtworks.append($imgNode);
+        })
+    })
 
-// ///////////////////////// EDIT THE ARTWORK //////////////////////
-// const toggleEditInputs = (event) =>{
-//     console.log('the id of the artwork to edit is:')
-//     console.log(event.target.id)
+    // once initial data is loaded, store all images in variable $archiveItem
+    const $archiveItem = $(".archive-item");
+    // when one of the archive items is clicked, open archive item information window. 
+    $archiveItem.on('click', openArchiveItemWindow);
+}
 
-//     // const updatedArtwork = {
-//     //     title: "",
-//     //     artist: "",
-//     //     year: "",
-//     //     materials: [],
-//     //     notes: "",
-//     //     imageUrl: ""
-//     // }
-//     // const updatedArtwork = {
-//     //     title: $title.val(),
-//     //     artist: artistName,
-//     //     year: $year.val(),
-//     //     materials: $materialsMedium.val(),
-//     //     notes: $notes.val(),
-//     //     imageUrl: $imgUrl.val()
-//     // }
-
-
-
-
-
-//     // Hide the original buttons
-
-//     // Display the save and cancel button
-
-
-  
-
-//     // close the modal and return to the main gallery 
-
-
-
-// }
-
+getArtworks()
