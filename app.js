@@ -18,7 +18,7 @@ const startCarousel = async (artworkData) =>{
     for(let i = 0; i < 3; i++){
         randomDoc.push(artworkData[Math.floor(Math.random()*artworkData.length)]);
     }
-    console.log(randomDoc)
+    // console.log(randomDoc)
     // for each artwork in the carousel array, create an img element in the carousel
     randomDoc.forEach(art =>{
         if(!art.imageUrl) return;
@@ -80,8 +80,30 @@ axios.get(`${URL}artworks`).then(response => {
 
 
 
+
+
+
+
+
+///////////////////// GLOBAL VARIABLES FOR EDIT / DELETE FUNCTIONS ////////////////
+const $editCloseButton = $('#edit-close-button')
+const $saveArchiveItemButton = $('#save-archive-item-button')
+const $deletePrompt = $('#delete-prompt')
+const $removeFromArchiveButton = $('#remove-from-archive-button')
+const $cancelButton = $('#edit-cancel-button')
+
+/////////////////////////// ARCHIVE ITEM MODAL WINDOW POP UP ///////////////////////
+
 // Opens the open artwork / archive item modal window. 
 const openArchiveItemWindow = async (event) => {
+    $editArchiveItemButton.show()
+    $editCloseButton.show()
+    $cancelButton.hide()
+    $saveArchiveItemButton.hide()
+    $deletePrompt.hide()
+    $removeFromArchiveButton.hide()
+
+    // console.log(event.target.id)
     const $editArchiveItem = $('#archive-item-modal')
     // console.log($editArchiveItem)
     // Display the archive item's information in a modal window
@@ -91,13 +113,11 @@ const openArchiveItemWindow = async (event) => {
   // Find artwork in DB using the ID of the image clicked.
     const artwork = await fetch(`${URL}artworks/${event.target.id}`)
     .then(res => res.json());
-    console.log(artwork);
+    // console.log(artwork);
 
    
-
+    ///// DISPLAY INFO FOR ARTWORK
     const $archiveItemBody = $('#archive-item-body');
-    // let keys = Object.keys(artwork);
-    // let values = Object.values(artwork);
     let entries = Object.entries(artwork);
 
     // Filter out key/values that aren't relevant to the displayed text
@@ -126,54 +146,126 @@ const openArchiveItemWindow = async (event) => {
 
 
     // Create a table to display all of the artwork information 
+    let $archiveItemHeader = $('#info-modal-header')
+    let $existingTable = $('.info-table')
+    $existingTable.empty()
     let $table = $('<table>').addClass('info-table');
-    let $tHead = $('<thead>').addClass('table-header');
+    // let $tHead = $('<thead>').addClass('table-header');
     let $tBody = $('<tbody>').addClass('table-body')
 
     for(let i=0; i< displayEntries.length; i++){
         let $row = $('<tr>')
         $header = $('<td>').text(displayEntries[i][0]).addClass('artwork-table-header').css('font-weight', 'bold');
         $info = $('<td>').text(displayEntries[i][1]).addClass('artwork-table-info');
-        $tBody.append($row).append($header).append($info)
+        $row.append($header).append($info)
+        $tBody.append($row)
 
-        if(displayEntries[i][0] === 'Image URL:'){
-            let $image = $('<img>').attr('src', `${displayEntries[i][1]}`)
-            $tHead.append($image)
-           
+        if(displayEntries[i][0] === 'Image URL:' || displayEntries[i][0] === 'imageUrl'){
+            $archiveItemHeader.empty()
+            let $image = $('<img>').attr('src', `${displayEntries[i][1]}`).addClass('image-open-modal')
+            $image.insertBefore($tBody)
+            $archiveItemHeader.append($image)
         }
     }
-    $table.append($tHead)
+
     $table.append($tBody);
     $archiveItemBody.append($table)
-
-    //filter out the unnessary property names for the user side.
-    // let disKeys = [];
-    // for(let i = 0; i < keys.length; i++){    
-    //     if(keys[i] !== 'createdAt' && keys[i] !== 'updatedAt' && keys[i] !== '__v' && keys[i] !== '_id'){
-    //         if(keys[i] === 'imageUrl'){
-    //             keys[i] = 'Image Url';
-    //             disKeys.push(keys[i]);
-    //         }else if(keys[i] === 'year'){
-    //             keys[i]= 'Year Created';
-    //             disKeys.push(keys[i]);
-    //         }else{
-    //             disKeys.push((keys[i].charAt(0).toUpperCase()) + keys[i].slice(1));
-    //         };
-    //     };
-    // };
-    // for(let i=0; i<disKeys.length; i++){
-    //     $header = $('<p>').text(disKeys[i]).addClass('artwork-info-header').css('font-weight', 'bold');
-    //     $archiveItemBody.append($header);
-    // }
+    $editArchiveItemButton.attr('id', event.target.id)
 
 
+    $editArchiveItemButton.on('click', (event2) =>{
+        $deletePrompt.hide()
+        $editArchiveItemButton.hide()
+        $saveArchiveItemButton.show()
+        
 
-    // grabs the buttons for edit and delete
-    const $editArchiveItemButton = $('#edit-archive-item-button');
-    const $deleteArchiveItemButton = $('#delete-archive-item-button');
-    // on click functions for the edit and delete buttons
-    $editArchiveItemButton.on('click', openEditItemWindow);
-    $deleteArchiveItemButton.on('click', openDeletePrompt);
+        // get all the text values from the table
+        let $existingInfo = $('.artwork-table-info')
+        let $existingInfoValues = []
+        for(let i=0; i < $existingInfo.length; i++){
+            $existingInfoValues.push($existingInfo[i].innerHTML)
+        }
+
+        // get all the title values from the table
+        let $existingTitles = $('.artwork-table-header')
+        let $existingTitleValues = []
+        for(let i=0; i < $existingTitles.length; i++){
+            $existingTitleValues.push($existingTitles[i].innerHTML)
+        }
+
+        // empty out the uneditable table content
+        $existingTitles.empty()
+        $existingInfo.empty()
+
+        // repopulate empty table as a form 
+        for(let j=0; j < $existingTitleValues.length; j++){
+            let $row = $('<tr>')
+            $header = $('<td>').text($existingTitleValues[j]).addClass('artwork-table-header').css('font-weight', 'bold');
+            $info = $('<input>').attr('placeholder', $existingInfoValues[j]).addClass('artwork-table-info');
+            $row.append($header).append($info)
+            $tBody.append($row)
+        }
+        $table.append($tBody);
+        $archiveItemBody.append($table)
+
+        // make a put request to the database with input values 
+        // const updatedArtwork = {
+        //     title: $title.val(),
+        //     artist: artistName,
+        //     year: $year.val(),
+        //     materials: $materialsMedium.val(),
+        //     notes: $notes.val(),
+        //     imageUrl: $imgUrl.val()
+        // }
+
+
+
+
+
+        // Hide the original buttons
+
+        // Display the save and cancel button
+
+
+
+
+        // close the modal and return to the main gallery 
+
+
+
+
+    })
+
+    
+
+    $deleteArchiveItemButton.on('click', (e) =>{
+        $deletePrompt.show()
+        // show 'remove from archive' button
+        $removeFromArchiveButton.show()
+        $editArchiveItemButton.hide()
+        $deleteArchiveItemButton.hide()
+        $editCloseButton.hide()
+        $cancelButton.show()    
+        // get by id and delete
+
+    });
+
+}
+
+
+
+// on click functions for the edit button
+const toggleEditInputs = (event) =>{
+    
+    // turn the text fields into input fields or into editable cells?
+    // const $allInfo = $('.artwork-table-info');
+    // const infoText = $allInfo.filter(cell =>{
+    //     return cell.innerHTML()
+    // })
+    // console.log(infoText)
+    
+
+
 
     // const updatedArtwork = {
     //     title: "",
@@ -191,19 +283,64 @@ const openArchiveItemWindow = async (event) => {
     //     notes: $notes.val(),
     //     imageUrl: $imgUrl.val()
     // }
-    
-  
-      //update using the DOM 
-    //   $ul.empty()
+
+
+
+
+
+    // Hide the original buttons
+
+    // Display the save and cancel button
+
+
+
+
     // close the modal and return to the main gallery 
-}
 
-const openEditItemWindow = (event) =>{
-    console.log('the id of the artwork to edit is:')
-    console.log(event.target.id)
-}
 
-const openDeletePrompt = (event) =>{
-    console.log('the id of the artwork to delete is:')
-    console.log(event.target.id)
-}
+};
+// grabs the buttons for edit and delete
+const $editArchiveItemButton = $('.edit-archive-item-button');
+const $deleteArchiveItemButton = $('#delete-archive-item-button');
+
+
+
+// ///////////////////////// EDIT THE ARTWORK //////////////////////
+// const toggleEditInputs = (event) =>{
+//     console.log('the id of the artwork to edit is:')
+//     console.log(event.target.id)
+
+//     // const updatedArtwork = {
+//     //     title: "",
+//     //     artist: "",
+//     //     year: "",
+//     //     materials: [],
+//     //     notes: "",
+//     //     imageUrl: ""
+//     // }
+//     // const updatedArtwork = {
+//     //     title: $title.val(),
+//     //     artist: artistName,
+//     //     year: $year.val(),
+//     //     materials: $materialsMedium.val(),
+//     //     notes: $notes.val(),
+//     //     imageUrl: $imgUrl.val()
+//     // }
+
+
+
+
+
+//     // Hide the original buttons
+
+//     // Display the save and cancel button
+
+
+  
+
+//     // close the modal and return to the main gallery 
+
+
+
+// }
+

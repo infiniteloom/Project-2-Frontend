@@ -109,6 +109,9 @@ li{
     background-color: rgb(116, 116, 116);
     border: none;
 }
+.btn-primary:hover{
+    background-color: black;
+}
 .btn-secondary{
     background-color: white;
     color: black;
@@ -144,12 +147,34 @@ li{
     text-align: center;
 }
 
-.info-table{
-    position: relative;
-    width: 100%;
-    
+
+/* Table Content */
+.info-table, .table-body, .artwork-table-header{
+    word-wrap: break-word;
+    width: auto;
 }
 
 .table-header{
-    overflow: hidden;
+    word-wrap: break-word;
+    width: auto;
+}
+.artwork-table-info{
+    width: auto;
+    word-wrap: break-word;
+}
+
+#info-modal-content{
+    padding: 10px;
+    overflow: auto;
+    width: 100%;
+
+}
+
+#delete-prompt{
+    color: red;
+    font-style: italic;
+    font-size: .8em;
+}
+#remove-from-archive-button:hover{
+    color: red;
 }
