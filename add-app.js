@@ -1,12 +1,9 @@
-// const { response } = require("express");
-
-// const Artist = require("../../backend/Project-2-Backend/models/artist");
-
-// const axios = require('axios')
+// Backend Database URL
 const URL = 'https://ltproject2.herokuapp.com/';
 
 
-// Global Variables to get info from the input fields
+
+// Global Variables for the Add form functionality
 const $title = $('#title-input');
 const $artistName = $('#artist-input');
 const $year = $('#year-input');
@@ -14,9 +11,11 @@ const $materialsMedium = $('#materials-input');
 const $notes = $('#notes-input');
 const $imgUrl = $('#url-input');
 const $addButton = $('#add-button');
+
 const $returnButton = $('#return-button');
 const $addMoreButton = $('#add-more-button');
-// const $modalAddArtistButton = $('#modal-add-button');
+
+// Global Variables for the Edit form functionality.
 const $editForm = $('.edit-form');
 const $addArtistModal    = $('#add-artist-modal');
 const $addArtistButton = $('.add-artist-button')
@@ -79,7 +78,13 @@ const checkArtist = async (artistName)=>{
         const theArtist = artists.filter((artistObj) =>{
             // console.log(theArtist)
             artistId = artistObj._id
-            return artistObj.name.toUpperCase() === artistName.val().toUpperCase()
+            console.log(typeof artistName)
+            // this is a conditional when we send a newly created artist to the check artist()
+            if(typeof artistName === 'string' ){
+                return artistObj.name.toUpperCase() === artistName.toUpperCase()
+            }else{
+                return artistObj.name.toUpperCase() === artistName.val().toUpperCase()
+            }
         })
         
         // if theArtist array has a name in it/ artist exists
@@ -116,20 +121,24 @@ const addMediumForm = async (artistName) =>{
     $('#medium-modal-label').text(`What is ${artistName}'s primary medium?`)
     $(document).ready(function(){$addArtistModal.modal('hide')});
     $(document).ready(function(){$addMediumModal.modal('show')});
-    // const artistNameSend = artistName
-    // $addMediumButton.on('click', addArtistToDb(artistName))
+
+
+    ////////////// ADD MEDIUM BUTTON EVENT /////////////////
     $addMediumButton.on('click', async (event) => {
-        console.log('add artist to db function')
-        console.log(artistName)
+        // console.log('add artist to db function')
+        // console.log(artistName)
         const medium = $mediumModalInput.val()
-        console.log(medium)
+        // console.log(medium)
     
+         // Create the new artist b
         const newArtist = {
             name: artistName,
             artworks: [],
             medium: [medium]
         }
     
+        // Make post request to database, 
+        // Creates a new artist in database before the new artwork can be added to database
         const response = await fetch(`${URL}artists`, 
             {
                 method: "POST",
@@ -139,7 +148,13 @@ const addMediumForm = async (artistName) =>{
                 body: JSON.stringify(newArtist)
             }
         )
-        console.log(response)  
+      
+        // Send newly created artist's name to the check artist() 
+        // Which will send the artist to the addArtToDb function with an artist ID.
+        checkArtist(artistName)
+
+        // Hide the modal. 
+        $(document).ready(function(){$addMediumModal.modal('hide')});
     })
 }
 
@@ -158,7 +173,7 @@ const addArtToDb = async (artistName) => {
         notes: $notes.val(),
         imageUrl: $imgUrl.val()
     }
-    // console.log(newArtwork)
+    console.log(`the ${newArtwork} was added `)
 
     const response = await fetch(`${URL}artworks`, 
         {
