@@ -201,39 +201,50 @@ const openArchiveItemWindow = async (event) => {
         for(let j=0; j < $existingTitleValues.length; j++){
             let $row = $('<tr>')
             $header = $('<td>').text($existingTitleValues[j]).addClass('artwork-table-header').css('font-weight', 'bold');
-            $info = $('<input>').attr('placeholder', $existingInfoValues[j]).addClass('artwork-table-info');
+            $info = $('<input>').attr('placeholder', $existingInfoValues[j]).attr('id', `${$existingTitleValues[j]}`).addClass('artwork-table-info');
             $row.append($header).append($info)
             $tBody.append($row)
         }
+        // empty our modal body and append newly populated table with input fields
         $table.append($tBody);
+        $archiveItemBody.empty()
         $archiveItemBody.append($table)
 
-        // make a put request to the database with input values 
-        // const updatedArtwork = {
-        //     title: $title.val(),
-        //     artist: artistName,
-        //     year: $year.val(),
-        //     materials: $materialsMedium.val(),
-        //     notes: $notes.val(),
-        //     imageUrl: $imgUrl.val()
-        // }
+
+        $saveArchiveItemButton.on("click", (event) =>{
+            // grab the input fields by the id names. 
+            const $artist = $('#Artist\\:').val()
+            const $title = $('#Title\\:').val()
+            const $year = $('#Year\\ Created\\:').val()
+            const $notes = $('#Notes\\:').val()
+            const $materials = $('#Materials\\:').val()
+            const $imageUrl = $('#Image\\ URL\\:').val()
+            const placeholder = document.getElementById('Materials:').placeholder
+            console.log($artist, $title, $year, $notes, $materials, $imageUrl)
+            console.log(placeholder)
+
+             //make a put request to the database with input values 
+            const updatedArtwork = {
+                title: $title.val(),
+                artist: artistName,
+                year: $year.val(),
+                materials: $materialsMedium.val(),
+                notes: $notes.val(),
+                imageUrl: $imgUrl.val()
+            }
+
+
+            // close the modal and return to the main gallery 
 
 
 
 
-
-        // Hide the original buttons
-
-        // Display the save and cancel button
-
-
-
-
-        // close the modal and return to the main gallery 
-
-
-
-
+            // if the field's value is empty, use the placeholder as the value. 
+            // if(!artist || !title || !year || !notes || !url || !materials){
+            //     artist = $('#Artist\\:').placeholder
+            // }
+        })
+    
     })
 
     
