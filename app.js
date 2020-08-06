@@ -213,17 +213,42 @@ const openArchiveItemWindow = async (event) => {
 
         $saveArchiveItemButton.on("click", (event) =>{
             // grab the input fields by the id names. 
-            const $artist = $('#Artist\\:').val()
-            const $title = $('#Title\\:').val()
-            const $year = $('#Year\\ Created\\:').val()
-            const $notes = $('#Notes\\:').val()
-            const $materials = $('#Materials\\:').val()
-            const $imageUrl = $('#Image\\ URL\\:').val()
-            const placeholder = document.getElementById('Materials:').placeholder
-            console.log($artist, $title, $year, $notes, $materials, $imageUrl)
-            console.log(placeholder)
+            let $artist = $('#Artist\\:').val()
+            let $title = $('#Title\\:').val()
+            let $year = $('#Year\\ Created\\:').val()
+            let $notes = $('#Notes\\:').val()
+            let $materials = $('#Materials\\:').val()
+            let $imageUrl = $('#Image\\ URL\\:').val()
 
-             //make a put request to the database with input values 
+            if(!$artist){
+                $artist = document.getElementById('Artist:').placeholder
+                console.log(   `using the ${$artist} as placeholder title`)
+            }
+            if(!$title){
+                $title = document.getElementById('Title:').placeholder
+                console.log(   `using the ${$title} as placeholder title`)
+            }
+            if(!$year){
+                $year = document.getElementById('Year Created:').placeholder
+                console.log(   `using the ${$year} as placeholder title`)
+
+            }
+            if(!$notes){
+                $notes = document.getElementById('Notes:').placeholder
+                console.log(   `using the ${$notes} as placeholder title`)
+
+            }
+            if(!$materials){
+                $materials = document.getElementById('Materials:').placeholder
+                console.log(   `using the ${$materials} as placeholder title`)
+            }
+            if(!$imageUrl){
+                $imageUrl = document.getElementById('Image URL:').placeholder
+                console.log(   `using the ${$imageUrl} as placeholder title`)
+            }
+
+           
+            //make a put request to the database with input values 
             const updatedArtwork = {
                 title: $title.val(),
                 artist: artistName,
@@ -237,12 +262,6 @@ const openArchiveItemWindow = async (event) => {
             // close the modal and return to the main gallery 
 
 
-
-
-            // if the field's value is empty, use the placeholder as the value. 
-            // if(!artist || !title || !year || !notes || !url || !materials){
-            //     artist = $('#Artist\\:').placeholder
-            // }
         })
     
     })
