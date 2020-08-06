@@ -6,13 +6,17 @@ const $carouselItem = $('.carousel-item');
 const $carousel1 = $('#carousel1');
 const $carousel2 = $('#carousel2');
 const $carousel3 = $('#carousel3');
-
+let $archiveItem = $(".archive-item");
 
 /////////////////////////////////// CAROUSEL /////////////////////////////////////
 
 // function to populate the Bootstrap carousel with 3 randomly selected images from database:
 const startCarousel = async (artworkData) =>{
-    // console.log(artworkData)
+
+    // Clear old carousel images
+    $carouselItem.empty()
+
+    // Create arrays to hold random numbers used as indexes for carousel display
     const randomDoc = [];
     let randomNum;
 
@@ -22,12 +26,12 @@ const startCarousel = async (artworkData) =>{
         // checks if there is an instance of the randomNum in the array already.
         // then pushes if there is no instance of it yet.
         if(randomDoc.indexOf(randomNum) < 0) {
-            console.log(randomNum)
+            // console.log(randomNum)
             randomDoc.push(artworkData[randomNum]);
         }
     }
 
-    console.log(randomDoc.length)
+    // console.log(randomDoc.length)
     // for each artwork in the carousel array, create an img element in the carousel
     randomDoc.forEach(art =>{
         if(!art.imageUrl) return;
@@ -50,45 +54,6 @@ const startCarousel = async (artworkData) =>{
         }
     })
 }
-
-
-
-//////////////////////////// DISPLAY ART IN GALLERY WITH BOOTSTRAP GRID ////////////////////////////
-// // display all artworks in a Bootstrap grid 
-// const getArtworks = async (artworkData) => {
-//     // console.log(artworkData)
-//     $allArtworks.innerHTML="";
-//     artworkData.forEach(art => {
-//         if(!art.imageUrl) return;
-//         const $imgNode = $('<img>')
-//         .attr('src', art.imageUrl)
-//         .addClass('archive-item')
-//         .addClass('col-6')
-//         .addClass('col-md-4')
-//         .addClass('col-lg-3')
-//         .addClass('col-xlg-2')
-//         .attr('id', art._id)
-//         $allArtworks.append($imgNode);
-//     })
-
-    
-// }
-
-// // this happens on site-load.
-// // make the axios call to get the data then trigger the two functions
-// axios.get(`${URL}artworks`).then(response => {
-//     // gets the initial data
-//     startCarousel(response.data);
-//     getArtworks(response.data);
-
-//     // once initial data is loaded, store all images in variable $archiveItem
-//     const $archiveItem = $(".archive-item");
-//     // when one of the archive items is clicked, open archive item information window. 
-//     $archiveItem.on('click', openArchiveItemWindow);
-// })
-
-
-
 
 
 
@@ -189,11 +154,14 @@ const openArchiveItemWindow = async (event) => {
     ///////////////// UPDATE ARTWORK FUNCTION ///////////////////
 
     $editArchiveItemButton.on('click', (event2) =>{
-        // console.log(event2.target.id)
+        // Hide irrelevant buttons
         $deletePrompt.hide()
         $editArchiveItemButton.hide()
+        // Show save button
         $saveArchiveItemButton.show()
-        
+
+        // Empty out the div
+        console.log($archiveItemBody)
 
         // get all the text values from the table
         let $existingInfo = $('.artwork-table-info')
@@ -209,9 +177,14 @@ const openArchiveItemWindow = async (event) => {
             $existingTitleValues.push($existingTitles[i].innerHTML)
         }
 
-        // empty out the uneditable table content
-        // $existingTitles.empty()
-        // $existingInfo.empty()
+        // Empty out the uneditable table content
+        $existingTitles.empty()
+        $existingInfo.empty()
+        let $editableTitles = $('.artwork-table-header')
+        let $editableInfo = $('.artwork-table-info')
+        $editableInfo.empty()
+        $editableTitles.empty()
+        // $archiveItemBody.empty()
 
         // repopulate empty table as a form 
         for(let j=0; j < $existingTitleValues.length; j++){
@@ -223,7 +196,7 @@ const openArchiveItemWindow = async (event) => {
         }
         // empty our modal body and append newly populated table with input fields
         $table.append($tBody);
-        $archiveItemBody.empty()
+        // $archiveItemBody.empty()
         $archiveItemBody.append($table)
         $saveArchiveItemButton.attr('id', event2.target.id)
         
@@ -336,6 +309,7 @@ const getArtworks = async () => {
     axios.get(`${URL}artworks`).then(response => {
         // console.log(response.data)
         $allArtworks.innerHTML="";
+
         startCarousel(response.data)
         response.data.forEach(art => {
             if(!art.imageUrl) return;
@@ -349,12 +323,15 @@ const getArtworks = async () => {
             .attr('id', art._id)
             $allArtworks.append($imgNode);
         })
+        $archiveItem = $(".archive-item");
+        $archiveItem.on('click', openArchiveItemWindow);
     })
 
     // once initial data is loaded, store all images in variable $archiveItem
-    const $archiveItem = $(".archive-item");
+    
     // when one of the archive items is clicked, open archive item information window. 
-    $archiveItem.on('click', openArchiveItemWindow);
+
 }
 
-getArtworks()
+getArtworks();
+$archiveItem.on('click', openArchiveItemWindow);

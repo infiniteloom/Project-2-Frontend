@@ -1,8 +1,6 @@
 // Backend Database URL
 const URL = 'https://ltproject2.herokuapp.com/';
 
-
-
 // Global Variables for the Add form functionality
 const $title = $('#title-input');
 const $artistName = $('#artist-input');
@@ -11,7 +9,6 @@ const $materialsMedium = $('#materials-input');
 const $notes = $('#notes-input');
 const $imgUrl = $('#url-input');
 const $addButton = $('#add-button');
-
 const $returnButton = $('#return-button');
 const $addMoreButton = $('#add-more-button');
 
