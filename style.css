@@ -117,7 +117,7 @@ li{
     color: black;
     border: none;
 }
-#save-archive-item-button{
+.save-archive-item-button{
     display: none;
 }
 

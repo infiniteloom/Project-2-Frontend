@@ -144,31 +144,6 @@ const addMediumForm = async (artistName) =>{
 }
 
 
-// const addArtistToDb = async (artistName) =>{
-//     console.log('add artist to db function')
-//     console.log(artistName)
-//     const medium = $mediumModalInput.val()
-//     console.log(medium)
-
-//     const newArtist = {
-//         name: artistName,
-//         artworks: [],
-//         medium: [medium]
-//     }
-
-//     const response = await fetch(`${URL}artworks`, 
-//         {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type" : "application/json"
-//             },
-//             body: JSON.stringify(newArtist)
-//         }
-//     )
-//     console.log(response)
-// }
-
-
 
 
 //////////////////////// ADD ARTWORK TO DATABASE //////////////////////
@@ -227,5 +202,3 @@ const addArtwork = () =>{
 
 
 $addButton.on('click', addArtwork);
-
-// $modalAddArtistButton.on('click', addMediumForm);

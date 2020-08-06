@@ -14,11 +14,20 @@ const $carousel3 = $('#carousel3');
 const startCarousel = async (artworkData) =>{
     // console.log(artworkData)
     const randomDoc = [];
-    // create an array of three random documents from the artwork database
-    for(let i = 0; i < 3; i++){
-        randomDoc.push(artworkData[Math.floor(Math.random()*artworkData.length)]);
+    let randomNum;
+
+    // find 3 unique random numbers and push to randomDoc array
+    while(randomDoc.length < 3) {
+        randomNum = Math.floor(Math.random() * artworkData.length)
+        // checks if there is an instance of the randomNum in the array already.
+        // then pushes if there is no instance of it yet.
+        if(randomDoc.indexOf(randomNum) < 0) {
+            console.log(randomNum)
+            randomDoc.push(artworkData[randomNum]);
+        }
     }
-    // console.log(randomDoc)
+
+    console.log(randomDoc.length)
     // for each artwork in the carousel array, create an img element in the carousel
     randomDoc.forEach(art =>{
         if(!art.imageUrl) return;
@@ -87,9 +96,9 @@ axios.get(`${URL}artworks`).then(response => {
 
 ///////////////////// GLOBAL VARIABLES FOR EDIT / DELETE FUNCTIONS ////////////////
 const $editCloseButton = $('#edit-close-button')
-const $saveArchiveItemButton = $('#save-archive-item-button')
+const $saveArchiveItemButton = $('.save-archive-item-button')
 const $deletePrompt = $('#delete-prompt')
-const $removeFromArchiveButton = $('#remove-from-archive-button')
+const $removeFromArchiveButton = $('.remove-from-archive-button')
 const $cancelButton = $('#edit-cancel-button')
 
 /////////////////////////// ARCHIVE ITEM MODAL WINDOW POP UP ///////////////////////
@@ -116,7 +125,10 @@ const openArchiveItemWindow = async (event) => {
     // console.log(artwork);
 
    
-    ///// DISPLAY INFO FOR ARTWORK
+
+
+    ////////////// DISPLAY INFO FOR ARTWORK //////////////////
+
     const $archiveItemBody = $('#archive-item-body');
     let entries = Object.entries(artwork);
 
@@ -134,7 +146,8 @@ const openArchiveItemWindow = async (event) => {
                 displayEntries.push(entries[i]);
             }else if(entries[i][0] === 'artist'){
                 entries[i][0] = "Artist:"
-                entries[i][1] = entries[i][0].name
+                console.log(entries[i][1].name)
+                entries[i][1] = entries[i][1].name
                 displayEntries.push(entries[i]);
             }else{
                 entries[i][0] = entries[i][0].charAt(0).toUpperCase() + entries[i][0].slice(1) + ':';
@@ -171,9 +184,14 @@ const openArchiveItemWindow = async (event) => {
     $table.append($tBody);
     $archiveItemBody.append($table)
     $editArchiveItemButton.attr('id', event.target.id)
+    $deleteArchiveItemButton.attr('id', event.target.id)
 
+
+
+    ///////////////// UPDATE ARTWORK FUNCTION ///////////////////
 
     $editArchiveItemButton.on('click', (event2) =>{
+        // console.log(event2.target.id)
         $deletePrompt.hide()
         $editArchiveItemButton.hide()
         $saveArchiveItemButton.show()
@@ -194,8 +212,8 @@ const openArchiveItemWindow = async (event) => {
         }
 
         // empty out the uneditable table content
-        $existingTitles.empty()
-        $existingInfo.empty()
+        // $existingTitles.empty()
+        // $existingInfo.empty()
 
         // repopulate empty table as a form 
         for(let j=0; j < $existingTitleValues.length; j++){
@@ -209,9 +227,10 @@ const openArchiveItemWindow = async (event) => {
         $table.append($tBody);
         $archiveItemBody.empty()
         $archiveItemBody.append($table)
+        $saveArchiveItemButton.attr('id', event2.target.id)
+        
 
-
-        $saveArchiveItemButton.on("click", (event) =>{
+        $saveArchiveItemButton.on("click", async (event) =>{
             // grab the input fields by the id names. 
             let $artist = $('#Artist\\:').val()
             let $title = $('#Title\\:').val()
@@ -222,53 +241,65 @@ const openArchiveItemWindow = async (event) => {
 
             if(!$artist){
                 $artist = document.getElementById('Artist:').placeholder
-                console.log(   `using the ${$artist} as placeholder title`)
+                // console.log(   `using the ${$artist} as placeholder title`)
             }
             if(!$title){
                 $title = document.getElementById('Title:').placeholder
-                console.log(   `using the ${$title} as placeholder title`)
+                // console.log(   `using the ${$title} as placeholder title`)
             }
             if(!$year){
                 $year = document.getElementById('Year Created:').placeholder
-                console.log(   `using the ${$year} as placeholder title`)
-
+                // console.log(   `using the ${$year} as placeholder title`)
             }
             if(!$notes){
                 $notes = document.getElementById('Notes:').placeholder
-                console.log(   `using the ${$notes} as placeholder title`)
-
+                // console.log(   `using the ${$notes} as placeholder title`)
             }
             if(!$materials){
                 $materials = document.getElementById('Materials:').placeholder
-                console.log(   `using the ${$materials} as placeholder title`)
+                // console.log(   `using the ${$materials} as placeholder title`)
             }
             if(!$imageUrl){
                 $imageUrl = document.getElementById('Image URL:').placeholder
-                console.log(   `using the ${$imageUrl} as placeholder title`)
+                // console.log(   `using the ${$imageUrl} as placeholder title`)
             }
 
+            console.log($title, $artist, Number($year), $materials, $notes, $imageUrl)
            
-            //make a put request to the database with input values 
+            // Create updated artwork document      
             const updatedArtwork = {
-                title: $title.val(),
-                artist: artistName,
-                year: $year.val(),
-                materials: $materialsMedium.val(),
-                notes: $notes.val(),
-                imageUrl: $imgUrl.val()
+                title: $title,
+                artist: $artist,
+                year: Number($year),
+                materials: [$materials],
+                notes: $notes,
+                imageUrl: $imageUrl
             }
 
+            // Make a put request to the database with input values  
+            // console.log(event.target.id)
+            const updatedResponse = await fetch(`${URL}artworks/${event.target.id}`, {
+                method: "put",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify(updatedArtwork)
+            })
+            console.log(updatedResponse)
 
             // close the modal and return to the main gallery 
-
-
+            $(document).ready(function(){$editArchiveItem.modal('hide')});
+            // reload the gallery?
+            // $('.all-artworks).empty()
+            // getArtworks()
         })
     
     })
 
     
+    ///////////////// DELETE ARTWORK FUNCTION ///////////////////
 
-    $deleteArchiveItemButton.on('click', (e) =>{
+    $deleteArchiveItemButton.on('click', async (event) =>{
         $deletePrompt.show()
         // show 'remove from archive' button
         $removeFromArchiveButton.show()
@@ -276,59 +307,26 @@ const openArchiveItemWindow = async (event) => {
         $deleteArchiveItemButton.hide()
         $editCloseButton.hide()
         $cancelButton.show()    
-        // get by id and delete
+        $removeFromArchiveButton.attr('id', event.target.id)
 
+        $removeFromArchiveButton.on('click', async (event) =>{
+            // get by id and delete
+            const deleteResponse = await  fetch(`${URL}artworks/${event.target.id}`, {
+                method: "delete"
+                })
+                console.log(deleteResponse)
+                // reload home page
+                
+                $(document).ready(function(){$editArchiveItem.modal('hide')});
+                $('.all-artworks').empty()
+                getArtworks()
+        })
     });
-
 }
 
 
 
-// on click functions for the edit button
-const toggleEditInputs = (event) =>{
-    
-    // turn the text fields into input fields or into editable cells?
-    // const $allInfo = $('.artwork-table-info');
-    // const infoText = $allInfo.filter(cell =>{
-    //     return cell.innerHTML()
-    // })
-    // console.log(infoText)
-    
 
-
-
-    // const updatedArtwork = {
-    //     title: "",
-    //     artist: "",
-    //     year: "",
-    //     materials: [],
-    //     notes: "",
-    //     imageUrl: ""
-    // }
-    // const updatedArtwork = {
-    //     title: $title.val(),
-    //     artist: artistName,
-    //     year: $year.val(),
-    //     materials: $materialsMedium.val(),
-    //     notes: $notes.val(),
-    //     imageUrl: $imgUrl.val()
-    // }
-
-
-
-
-
-    // Hide the original buttons
-
-    // Display the save and cancel button
-
-
-
-
-    // close the modal and return to the main gallery 
-
-
-};
 // grabs the buttons for edit and delete
 const $editArchiveItemButton = $('.edit-archive-item-button');
 const $deleteArchiveItemButton = $('#delete-archive-item-button');
