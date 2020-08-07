@@ -57,6 +57,16 @@ const startCarousel = async (artworkData) =>{
 
 
 
+
+
+
+
+
+
+
+
+
+
 ///////////////////// GLOBAL VARIABLES FOR EDIT / DELETE FUNCTIONS ////////////////
 const $editCloseButton = $('#edit-close-button')
 const $saveArchiveItemButton = $('.save-archive-item-button')
@@ -65,6 +75,12 @@ const $removeFromArchiveButton = $('.remove-from-archive-button')
 const $cancelButton = $('#edit-cancel-button')
 let $editableTitles = $('.artwork-table-header')
 let $editableInfo = $('.artwork-table-info')
+
+
+
+
+
+
 
 /////////////////////////// ARCHIVE ITEM MODAL WINDOW POP UP ///////////////////////
 
@@ -131,6 +147,48 @@ const openArchiveItemWindow = async (event) => {
 
 
     // Create a table to display all of the artwork information 
+    // let $archiveItemHeader = $('#info-modal-header')
+    // let $existingTable = $('.info-table')
+    // $existingTable.empty()
+    // if(!$existingTable){
+    //     $existingTable = $('<table>').addClass('info-table');
+    // }
+    
+    // let $tBody = $('#info-table-body')
+    // if(!$tBody){
+    //     $tBody = $('<tbody>').addClass('table-body')
+    // } 
+
+
+    // // console.log($tBody)
+    // // let $table = $('<table>').addClass('info-table');
+    // // let $tBody = $('<tbody>').addClass('table-body')
+
+    // for(let i=0; i< displayEntries.length; i++){
+    //     let $row = $('<tr>')
+    //     $header = $('<td>').text(displayEntries[i][0]).addClass('artwork-table-header').css('font-weight', 'bold');
+    //     $info = $('<td>').text(displayEntries[i][1]).addClass('artwork-table-info');
+    //     // console.log($header)
+    //     // console.log($info)
+    //     $row.append($header).append($info)
+    //     $tBody.append($row)
+    //     console.log($tBody)
+    //     $existingTable.append($tBody)
+
+    //     if(displayEntries[i][0] === 'Image URL:' || displayEntries[i][0] === 'imageUrl'){
+    //         $archiveItemHeader.empty()
+    //         let $image = $('<img>').attr('src', `${displayEntries[i][1]}`).addClass('image-open-modal')
+    //         $image.insertBefore($tBody)
+    //         $archiveItemHeader.append($image)
+    //     }
+    // }
+
+    // // $existingTable.append($tBody)
+    // console.log($existingTable)
+
+
+
+    // working code
     let $archiveItemHeader = $('#info-modal-header')
     let $existingTable = $('.info-table')
     $existingTable.empty()
@@ -162,6 +220,12 @@ const openArchiveItemWindow = async (event) => {
     ///////////////// UPDATE ARTWORK FUNCTION ///////////////////
 
     $editArchiveItemButton.on('click', async (event2) =>{
+
+        let $editBody = $('#edit-archive-item-body')
+        let $table2 = $('.edit-table')
+        let $tBody2 = $('#edit-table-body');
+
+
         const artworkInfo = await fetch(`${URL}artworks/${event2.target.id}`)
         .then(res => res.json());
 
@@ -172,35 +236,33 @@ const openArchiveItemWindow = async (event) => {
         $saveArchiveItemButton.show()
 
         $archiveItemBody.empty()
-
+        $tBody2.empty()
 
         let displayEntries = []
         for(let i = 0; i < entries.length; i++){
 
             if(entries[i][0] !== '_id' && entries[i][0] !== 'createdAt' && entries[i][0] !== 'updatedAt' && entries[i][0] !== '__v'){
                 if(entries[i][0] === 'imageUrl'){
-                    entries[i][0] = "Image URL:";
+                    entries[i][0] = "Image URL";
                     displayEntries.push(entries[i]);
                 }else if(entries[i][0] === 'year'){
-                    entries[i][0] = "Year Created:"
+                    entries[i][0] = "Year Created"
                     displayEntries.push(entries[i]);
                 }else if(entries[i][0] === 'artist'){
-                    entries[i][0] = "Artist:"
+                    entries[i][0] = "Artist"
                     console.log(entries[i][1].name)
                     entries[i][1] = entries[i][1].name
                     displayEntries.push(entries[i]);
                 }else{
-                    entries[i][0] = entries[i][0].charAt(0).toUpperCase() + entries[i][0].slice(1) + ':';
+                    entries[i][0] = entries[i][0].charAt(0).toUpperCase() + entries[i][0].slice(1);
                     displayEntries.push(entries[i]);
                 }
             }
         }
 
-        console.log(displayEntries)
+        // console.log(displayEntries)
 
-        let $infoBody = $('.edit-archive-item-body')
-        let $table2 = $('.edit-table')
-        let $tBody2 = $('#edit-table-body');
+  
 
         // repopulate empty table as a form 
         for(let j=0; j < displayEntries.length; j++){
@@ -266,11 +328,10 @@ const openArchiveItemWindow = async (event) => {
 
         // $archiveItemBody.append($table)
         $saveArchiveItemButton.attr('id', event2.target.id)
-      
 
-        
 
         $saveArchiveItemButton.on("click", async (event) =>{
+            console.log('saving ')
             // grab the input fields by the id names. 
             let $artist = $('#Artist\\:').val()
             let $title = $('#Title\\:').val()
@@ -322,11 +383,11 @@ const openArchiveItemWindow = async (event) => {
             // console.log(updatedResponse)
 
             // close the modal and return to the main gallery 
-            $(document).ready(function(){$editArchiveItem.modal('hide')});
+            $editArchiveItem.modal('hide')
             // reload the gallery?
             // $('.all-artworks).empty()
 
-                  $tBody.empty()
+            $tBody.empty()
             getArtworks()
         })
   
@@ -352,7 +413,6 @@ const openArchiveItemWindow = async (event) => {
                 })
                 console.log(deleteResponse)
                 // reload home page
-                
                 $(document).ready(function(){$editArchiveItem.modal('hide')});
                 $('.all-artworks').empty()
                 getArtworks()
