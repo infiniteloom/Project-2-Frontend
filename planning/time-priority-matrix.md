@@ -41,8 +41,8 @@ Used to visually browse archives, title and artist displayed on thumbnail :hover
 | Sticky header    |    H     |      1hr       |      .5hr      |     -hr     |
 | Edit Art page    |    H     |      1hr       |      .5hr      |     -hr     |
 | Mobile Layout    |    H     |      3hr       |      1hr       |     -hr     |
-| jQuery with API  |    H     |    3-5hrs      |      hr       |     -hr     |
-| Debug            |    H     |      3hr       |      -hr       |     -hr     |
+| jQuery with API  |    H     |    3-5hrs      |      15hr?     |     -hr     |
+| Debug            |    H     |      3hr       |      ?? 10+hr  |     -hr     |
 | Total            |          |    11-14hrs    |      -hrs      |    -hrs     |
 
 
@@ -52,14 +52,7 @@ Used to visually browse archives, title and artist displayed on thumbnail :hover
 | ------------- | :------: | :------------: | :------------: | :---------: |
 | Sort View     |    L     |      4hr       |      -hr       |     -hr     |
 | Search        |    L     |      2hr       |      -hr       |     -hr     |
-| Bootstrap?    |    M     |      4hr       |      -hr       |     -hr     |
+| Bootstrap?    |    M     |      4hr       |      2hr       |     -hr     |
 | CSS Animation |    M     |      2hr       |      -hr       |     -hr     |
-| Total         |          |     12hrs      |      -hrs      |    -hrs     |
+| Total         |          |     12hrs      |      2hrs      |    -hrs     |
 
-
-
-8/4/2020 To do:
-Make add form work.
-
-Make images clickable links to edit each image. 
-Add delete button to edit each page. 
