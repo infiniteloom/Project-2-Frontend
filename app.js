@@ -26,12 +26,14 @@ const startCarousel = async (artworkData) =>{
         // checks if there is an instance of the randomNum in the array already.
         // then pushes if there is no instance of it yet.
         if(randomDoc.indexOf(randomNum) < 0) {
-            // console.log(randomNum)
+            console.log(randomNum)
+            let index = randomDoc.indexOf(randomNum)
+            console.log(`indexof randomNum is ${index}`)
             randomDoc.push(artworkData[randomNum]);
         }
     }
 
-    // console.log(randomDoc.length)
+    console.log(`The length of the random num array is ${randomDoc.length}`)
     // for each artwork in the carousel array, create an img element in the carousel
     randomDoc.forEach(art =>{
         if(!art.imageUrl) return;
@@ -77,7 +79,29 @@ let $editableTitles = $('.artwork-table-header')
 let $editableInfo = $('.artwork-table-info')
 
 
+/////////////// GET ARTIST ID ///////////////
+const getArtistId = async($artist) => {
+    let artist
+    // get the artist id number by searching in the database: 
+    const allArtists = await fetch(`${URL}artists`)
+        .then(response => response.json())
+        // 'artists' consists of all the docs in DB
+        .then((artists) => {    
+        let artistId = "";
 
+        // find the artist with the matching name and filter to the array of theArtist
+        const theArtist = artists.filter((artistObj) =>{
+            return artistObj.name.toUpperCase() === $artist.toUpperCase()
+        })
+
+        console.log(theArtist)
+        artist = theArtist[0]._id
+        console.log(`artist id is ${artist}`)
+        // return artist
+    })
+    return artist
+    
+}
 
 
 
@@ -146,45 +170,6 @@ const openArchiveItemWindow = async (event) => {
     // console.log(displayEntries);
 
 
-    // Create a table to display all of the artwork information 
-    // let $archiveItemHeader = $('#info-modal-header')
-    // let $existingTable = $('.info-table')
-    // $existingTable.empty()
-    // if(!$existingTable){
-    //     $existingTable = $('<table>').addClass('info-table');
-    // }
-    
-    // let $tBody = $('#info-table-body')
-    // if(!$tBody){
-    //     $tBody = $('<tbody>').addClass('table-body')
-    // } 
-
-
-    // // console.log($tBody)
-    // // let $table = $('<table>').addClass('info-table');
-    // // let $tBody = $('<tbody>').addClass('table-body')
-
-    // for(let i=0; i< displayEntries.length; i++){
-    //     let $row = $('<tr>')
-    //     $header = $('<td>').text(displayEntries[i][0]).addClass('artwork-table-header').css('font-weight', 'bold');
-    //     $info = $('<td>').text(displayEntries[i][1]).addClass('artwork-table-info');
-    //     // console.log($header)
-    //     // console.log($info)
-    //     $row.append($header).append($info)
-    //     $tBody.append($row)
-    //     console.log($tBody)
-    //     $existingTable.append($tBody)
-
-    //     if(displayEntries[i][0] === 'Image URL:' || displayEntries[i][0] === 'imageUrl'){
-    //         $archiveItemHeader.empty()
-    //         let $image = $('<img>').attr('src', `${displayEntries[i][1]}`).addClass('image-open-modal')
-    //         $image.insertBefore($tBody)
-    //         $archiveItemHeader.append($image)
-    //     }
-    // }
-
-    // // $existingTable.append($tBody)
-    // console.log($existingTable)
 
 
 
@@ -210,6 +195,7 @@ const openArchiveItemWindow = async (event) => {
         }
     }
 
+    
     $table.append($tBody);
     $archiveItemBody.append($table)
     $editArchiveItemButton.attr('id', event.target.id)
@@ -250,7 +236,7 @@ const openArchiveItemWindow = async (event) => {
                     displayEntries.push(entries[i]);
                 }else if(entries[i][0] === 'artist'){
                     entries[i][0] = "Artist"
-                    console.log(entries[i][1].name)
+                    // console.log(entries[i][1].name)
                     entries[i][1] = entries[i][1].name
                     displayEntries.push(entries[i]);
                 }else{
@@ -259,7 +245,6 @@ const openArchiveItemWindow = async (event) => {
                 }
             }
         }
-
         // console.log(displayEntries)
 
   
@@ -280,58 +265,11 @@ const openArchiveItemWindow = async (event) => {
 
 
 
-
-        // // Hide irrelevant buttons
-        // $deletePrompt.hide()
-        // $editArchiveItemButton.hide()
-        // // Show save button
-        // $saveArchiveItemButton.show()
-
-        // // Empty out the div
-        // console.log($archiveItemBody)
-
-        // // get all the text values from the table
-        // let $existingInfo = $('.artwork-table-info')
-        // let $existingInfoValues = []
-        // for(let i=0; i < $existingInfo.length; i++){
-        //     $existingInfoValues.push($existingInfo[i].innerHTML)
-        // }
-
-        // // get all the title values from the table
-        // let $existingTitles = $('.artwork-table-header')
-        // let $existingTitleValues = []
-        // for(let i=0; i < $existingTitles.length; i++){
-        //     $existingTitleValues.push($existingTitles[i].innerHTML)
-        // }
-
-        // // Empty out the uneditable table content
-        // $existingTitles.empty()
-        // $existingInfo.empty()
-        // let $editableTitles = $('.artwork-table-header')
-        // let $editableInfo = $('.artwork-table-info')
-        // $editableInfo.empty()
-        // $editableTitles.empty()
-        // // $archiveItemBody.empty()
-
-        // // repopulate empty table as a form 
-        // for(let j=0; j < $existingTitleValues.length; j++){
-        //     let $row = $('<tr>')
-        //     $header = $('<td>').text($existingTitleValues[j]).addClass('artwork-table-header').css('font-weight', 'bold');
-        //     $info = $('<input>').attr('placeholder', $existingInfoValues[j]).attr('id', `${$existingTitleValues[j]}`).addClass('artwork-table-info');
-        //     $row.append($header).append($info)
-        //     $tBody.append($row)
-        // }
-        // // empty our modal body and append newly populated table with input fields
-        // $table.append($tBody);
-
-
-
         // $archiveItemBody.append($table)
         $saveArchiveItemButton.attr('id', event2.target.id)
 
 
         $saveArchiveItemButton.on("click", async (event) =>{
-            console.log('saving ')
             // grab the input fields by the id names. 
             let $artist = $('#Artist\\:').val()
             let $title = $('#Title\\:').val()
@@ -340,6 +278,7 @@ const openArchiveItemWindow = async (event) => {
             let $materials = $('#Materials\\:').val()
             let $imageUrl = $('#Image\\ URL\\:').val()
 
+            // If the user does not enter any updated text, use the placeholder or pre-existing data. 
             if(!$artist){
                 $artist = document.getElementById('Artist:').placeholder
             }
@@ -357,40 +296,44 @@ const openArchiveItemWindow = async (event) => {
             }
             if(!$imageUrl){
                 $imageUrl = document.getElementById('Image URL:').placeholder
-
             }
 
-           
+            let $artistID = await getArtistId($artist)
+            console.log(`returned artist ID is ${$artistID}`)
+            //console.log($title, $artist, Number($year), $materials, $notes, $imageUrl)
+
+
             // Create updated artwork document      
             const updatedArtwork = {
                 title: $title,
-                artist: $artist,
+                artist: $artistID,
                 year: Number($year),
                 materials: [$materials],
                 notes: $notes,
                 imageUrl: $imageUrl
             }
+            console.log(updatedArtwork)
+
 
             // Make a put request to the database with input values  
             // console.log(event.target.id)
             const updatedResponse = await fetch(`${URL}artworks/${event.target.id}`, {
-                method: "put",
+                method: "PUT",
                 headers: {
                     "Content-Type" : "application/json"
                 },
                 body: JSON.stringify(updatedArtwork)
             })
-            // console.log(updatedResponse)
+            console.log(updatedResponse)
 
             // close the modal and return to the main gallery 
             $editArchiveItem.modal('hide')
-            // reload the gallery?
-            // $('.all-artworks).empty()
 
+            // reload the gallery?
+            $('.all-artworks').empty()
             $tBody.empty()
             getArtworks()
         })
-  
     })
 
     
@@ -451,12 +394,9 @@ const getArtworks = async () => {
         $archiveItem = $(".archive-item");
         $archiveItem.on('click', openArchiveItemWindow);
     })
-
-    // once initial data is loaded, store all images in variable $archiveItem
-    
-    // when one of the archive items is clicked, open archive item information window. 
-
 }
 
+// On site load, load all artworks in database in gallery mode. 
 getArtworks();
+// On click of any artwork image, open the info modal
 $archiveItem.on('click', openArchiveItemWindow);
