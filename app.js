@@ -158,7 +158,7 @@ const openArchiveItemWindow = async (event) => {
                 displayEntries.push(entries[i]);
             }else if(entries[i][0] === 'artist'){
                 entries[i][0] = "Artist:"
-                console.log(entries[i][1].name)
+                // console.log(entries[i][1].name)
                 entries[i][1] = entries[i][1].name
                 displayEntries.push(entries[i]);
             }else{
