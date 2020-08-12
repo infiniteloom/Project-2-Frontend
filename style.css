@@ -74,7 +74,7 @@ li{
     filter: brightness(.8);
 }
 .archive-item{
-    height: 100%;
+    height: auto !important;
 }
 .col-md-4, .col-6{ 
     padding-top: 25px;
