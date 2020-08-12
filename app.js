@@ -10,6 +10,11 @@ let $archiveItem = $(".archive-item");
 
 /////////////////////////////////// CAROUSEL /////////////////////////////////////
 
+// Create random number for carousel
+const randomNum = (length) => {
+    return Math.floor(Math.random() * length)
+}
+
 // function to populate the Bootstrap carousel with 3 randomly selected images from database:
 const startCarousel = async (artworkData) =>{
 
@@ -17,19 +22,20 @@ const startCarousel = async (artworkData) =>{
     $carouselItem.empty()
 
     // Create arrays to hold random numbers used as indexes for carousel display
-    const randomDoc = [];
-    let randomNum;
-
-    // find 3 unique random numbers and push to randomDoc array
+    let randomDoc = [];
+    let random;
+    let index;
+    let randomImage;
+    // find 3 unique random images and push to randomDoc array
+    // continues to search for random image until the randomDoc array length has 3 images.
     while(randomDoc.length < 3) {
-        randomNum = Math.floor(Math.random() * artworkData.length)
-        // checks if there is an instance of the randomNum in the array already.
+        random = randomNum(artworkData.length)
+        randomImage = artworkData[random]
+        // checks if there is an instance of the randomly selected image in the array already.
         // then pushes if there is no instance of it yet.
-        if(randomDoc.indexOf(randomNum) < 0) {
-            console.log(randomNum)
-            let index = randomDoc.indexOf(randomNum)
-            console.log(`indexof randomNum is ${index}`)
-            randomDoc.push(artworkData[randomNum]);
+        if(randomDoc.lastIndexOf(randomImage) < 0) {
+            index = randomDoc.indexOf(random)
+            randomDoc.push(artworkData[random]);
         }
     }
 
