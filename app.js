@@ -342,6 +342,12 @@ const openArchiveItemWindow = async (event) => {
         })
     })
 
+
+
+
+
+
+
     
     ///////////////// DELETE ARTWORK FUNCTION ///////////////////
 
@@ -370,11 +376,18 @@ const openArchiveItemWindow = async (event) => {
 }
 
 
-
-
 // grabs the buttons for edit and delete
 const $editArchiveItemButton = $('.edit-archive-item-button');
 const $deleteArchiveItemButton = $('#delete-archive-item-button');
+
+
+
+
+
+
+
+
+
 
 
 const getArtworks = async () => {
@@ -390,7 +403,7 @@ const getArtworks = async () => {
             const $imgNode = $('<img>')
             .attr('src', art.imageUrl)
             .addClass('archive-item')
-            .addClass('col-6')
+            .addClass('col-s-6')
             .addClass('col-md-4')
             .addClass('col-lg-3')
             .addClass('col-xlg-2')
