@@ -73,6 +73,9 @@ li{
 .archive-item:hover{
     filter: brightness(.8);
 }
+.archive-item{
+    height: 28vh;
+}
 .col-md-4, .col-6{
     padding-top: 25px;
 }
@@ -118,6 +121,8 @@ li{
 .save-archive-item-button{
     display: none;
 }
+
+
 
 /* Add more artwork or return to gallery buttons styling */
 .add-or-return{
