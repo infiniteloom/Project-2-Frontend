@@ -69,13 +69,15 @@ li{
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%; 
+    align-items: flex-start;
+
 }
 .archive-item:hover{
     filter: brightness(.8);
 }
-.archive-item{
-    height: auto !important;
-}
+/* .archive-item{
+    align-items: flex-start;
+} */
 .col-md-4, .col-6{ 
     padding-top: 25px;
 }
