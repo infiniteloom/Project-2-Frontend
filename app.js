@@ -403,6 +403,7 @@ const getArtworks = async () => {
             const $imgNode = $('<img>')
             .attr('src', art.imageUrl)
             .addClass('archive-item')
+            .addClass('.img-fluid')
             .addClass('col-6')
             .addClass('col-md-4')
             .addClass('col-lg-3')
