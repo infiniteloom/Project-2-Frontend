@@ -3,7 +3,7 @@
 ## Description: 
 **“Archivista.”** is an app that allows a user to manage their personal art collection or create a wishlist for a future collection through a modern, minimal interface. 
 
-**Archivista** is a combination of the words Archive and Vista, referring to the ability to view one’s art archives from a bird’s eye perspective. 
+**Archivista** is a combination of the words 'archive' and 'vista', referring to the ability to view one’s art archives from a bird’s eye perspective. 
 
 **Archivista** is primarly used by art collectors of all types but can also be used as a way to pin or save artworks to a wishlist for those who are interested in becoming a collector. Users will be able to add new artists/artworks or browse their existing collection by artist or by artworks. 
 
@@ -16,6 +16,20 @@ Features coming soon:
 ## Inspiration: 
 - Artsy.com
 - Etsy.com 
+
+## Wireframes
+
+#### Web:
+
+- [Home Page - Header](https://res.cloudinary.com/infiniteloom/image/upload/v1596226311/Unit%2002%20-%20Project%20/Web%20Mockup/Web_Intro_Header_p0mwqr.png)
+- [Home Page - Full](https://res.cloudinary.com/infiniteloom/image/upload/v1596226311/Unit%2002%20-%20Project%20/Web%20Mockup/Web_Intro_Long_fhoj6z.png)
+- [Edit Artwork View](https://res.cloudinary.com/infiniteloom/image/upload/v1596226311/Unit%2002%20-%20Project%20/Web%20Mockup/Web_Edit_Artwork_Page_ql0db1.png)
+
+#### Mobile: 
+- [Home Page - Header](https://res.cloudinary.com/infiniteloom/image/upload/v1596226225/Unit%2002%20-%20Project%20/Mobile%20Mockup/Mobile_Intro_Header_mwcx49.png)
+- [Home Page - Full](https://res.cloudinary.com/infiniteloom/image/upload/v1596226225/Unit%2002%20-%20Project%20/Mobile%20Mockup/Mobile_Intro_Long_pl7ojh.png)
+- [Edit Artwork View](https://res.cloudinary.com/infiniteloom/image/upload/v1596226253/Unit%2002%20-%20Project%20/Mobile%20Mockup/Mobile_Edit_Artwork_Page_lfcogw.png)
+- [Footer](https://res.cloudinary.com/infiniteloom/image/upload/v1596226224/Unit%2002%20-%20Project%20/Mobile%20Mockup/Mobile_Intro_Footer_rbwe9o.png)
 
 
 ### Main Page Features: 
@@ -42,7 +56,7 @@ Used to visually browse archives using a default of 'vista' view- a grid gallery
 
 
 ### Edit Archive Page Features: 
-1. Form page to add new artworks with:
+1. Form to add new artworks with:
     * title
     * year created
     * materials

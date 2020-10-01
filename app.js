@@ -127,17 +127,13 @@ const openArchiveItemWindow = async (event) => {
     $deletePrompt.hide()
     $removeFromArchiveButton.hide()
 
-    // console.log(event.target.id)
     const $editArchiveItem = $('#archive-item-modal')
-    // console.log($editArchiveItem)
     // Display the archive item's information in a modal window
     $(document).ready(function(){$editArchiveItem.modal('show')});
-    // console.log('archive item window open');   
 
   // Find artwork in DB using the ID of the image clicked.
     const artwork = await fetch(`${URL}artworks/${event.target.id}`)
     .then(res => res.json());
-    // console.log(artwork);
 
    
 
@@ -152,7 +148,6 @@ const openArchiveItemWindow = async (event) => {
     let displayEntries =[]
     // Filter out key/values that aren't relevant to the displayed text
     // Capitalize and push to a new array
-    // let displayEntries = [];
     for(let i = 0; i < entries.length; i++){
 
         if(entries[i][0] !== '_id' && entries[i][0] !== 'createdAt' && entries[i][0] !== 'updatedAt' && entries[i][0] !== '__v'){
@@ -164,7 +159,6 @@ const openArchiveItemWindow = async (event) => {
                 displayEntries.push(entries[i]);
             }else if(entries[i][0] === 'artist'){
                 entries[i][0] = "Artist:"
-                // console.log(entries[i][1].name)
                 entries[i][1] = entries[i][1].name
                 displayEntries.push(entries[i]);
             }else{
@@ -173,21 +167,16 @@ const openArchiveItemWindow = async (event) => {
             }
         }
     }
-    // console.log(displayEntries);
 
-
-
-
-
-    // working code
     let $archiveItemHeader = $('#info-modal-header')
-    let $existingTable = $('.info-table')
-    $existingTable.empty()
+    let $existingTable = $('.info-table');
+    $existingTable.empty();
     let $table = $('<table>').addClass('info-table');
-    let $tBody = $('<tbody>').addClass('table-body')
+    let $tBody = $('<tbody>').addClass('table-body');
+
 
     for(let i=0; i< displayEntries.length; i++){
-        let $row = $('<tr>')
+        let $row = $('<tr>').addClass('artwork-table-row');
         $header = $('<td>').text(displayEntries[i][0]).addClass('artwork-table-header').css('font-weight', 'bold');
         $info = $('<td>').text(displayEntries[i][1]).addClass('artwork-table-info');
         $row.append($header).append($info)
@@ -213,8 +202,8 @@ const openArchiveItemWindow = async (event) => {
 
     $editArchiveItemButton.on('click', async (event2) =>{
 
-        let $editBody = $('#edit-archive-item-body')
-        let $table2 = $('.edit-table')
+        let $editBody = $('#edit-archive-item-body');
+        let $table2 = $('.edit-table');
         let $tBody2 = $('#edit-table-body');
 
 
@@ -251,13 +240,12 @@ const openArchiveItemWindow = async (event) => {
                 }
             }
         }
-        // console.log(displayEntries)
 
   
 
         // repopulate empty table as a form 
         for(let j=0; j < displayEntries.length; j++){
-            let $row2 = $('<tr>');
+            let $row2 = $('<tr>').addClass('artwork-table-row')
             let $header2 = $('<td>').text(displayEntries[j][0]).addClass('artwork-table-header').css('font-weight', 'bold');
             let $info2 = $('<input>').attr('placeholder', displayEntries[j][1]).attr('id', `${displayEntries[j][0]}`).addClass('artwork-table-info');
             $row2.append($header2).append($info2)
@@ -306,7 +294,6 @@ const openArchiveItemWindow = async (event) => {
 
             let $artistID = await getArtistId($artist)
             console.log(`returned artist ID is ${$artistID}`)
-            //console.log($title, $artist, Number($year), $materials, $notes, $imageUrl)
 
 
             // Create updated artwork document      
@@ -403,7 +390,7 @@ const getArtworks = async () => {
             const $imgNode = $('<img>')
             .attr('src', art.imageUrl)
             .addClass('archive-item')
-            .addClass('.img-fluid')
+            .addClass('img-fluid')
             .addClass('col-6')
             .addClass('col-md-4')
             .addClass('col-lg-3')

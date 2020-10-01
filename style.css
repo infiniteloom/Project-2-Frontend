@@ -151,8 +151,10 @@ li{
 
 
 /* Table Content */
+.image-open-modal{
+    width: 100%;
+}
 .info-table, .table-body, .artwork-table-header{
-    word-wrap: break-word;
     width: auto;
 }
 .info-table{
@@ -162,22 +164,24 @@ li{
 .modal-header{
     padding: 0;
 }
-.table-header{
-    word-wrap: break-word;
-    width: auto;
+.artwork-table-header{
+    width: 30%;
+    font-size: .8em;
+}
+.artwork-table-row{
+    border-bottom: 1px solid rgb(238, 238, 238);
+    padding: 10px;
 }
 .artwork-table-info{
     width: auto;
-    word-wrap: break-word;
+    word-break: break-word;
+    font-size: .8em;
 }
-
 #info-modal-content{
     padding: 10px;
     overflow: auto;
     width: 100%;
-
 }
-
 #delete-prompt{
     color: red;
     font-style: italic;
